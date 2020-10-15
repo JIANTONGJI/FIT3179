@@ -1,59 +1,43 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-  "description": "A simple bar chart with embedded data.",
-  "data": {
-    "values": [
-      {
-        "a": "A",
-        "b": 28
+  "title": "US Gun Violence dead",
+  "width": 800,
+  "height": 500,
+  "projection": {"type": "albersUsa"},
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/JIANTONGJI/HomeworkWeek9/main/ne_110m_admin_1_states_provinces.json",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_110m_admin_1_states_provinces"
+        }
       },
-      {
-        "a": "B",
-        "b": 55
-      },
-      {
-        "a": "C",
-        "b": 43
-      },
-      {
-        "a": "D",
-        "b": 91
-      },
-      {
-        "a": "E",
-        "b": 81
-      },
-      {
-        "a": "F",
-        "b": 53
-      },
-      {
-        "a": "G",
-        "b": 19
-      },
-      {
-        "a": "H",
-        "b": 87
-      },
-      {
-        "a": "I",
-        "b": 52
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/JIANTONGJI/HomeworkWeek9/main/mass_shootings_all.csv"
+            },
+            "key": "State",
+            "fields": ["# Killed"]
+          }
+        }
+      ],
+      "mark": {"type": "geoshape", "stroke": "white"},
+      "encoding": {
+        "color": {
+          "field": "# Killed",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [2, 4, 6, 8, 10],
+            "range": ["#fdbe85", "#fd8d3c", "#e6550d", "#a63603"]
+          }
+        }
       }
-    ]
-  },
-  "mark": "bar",
-  "encoding": {
-    "x": {
-      "field": "a",
-      "type": "nominal",
-      "axis": {
-        "labelAngle": 0
-      }
-    },
-    "y": {
-      "field": "b",
-      "type": "quantitative"
     }
-  },
+  ],
   "config": {}
 }
